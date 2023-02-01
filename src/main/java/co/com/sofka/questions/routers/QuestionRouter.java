@@ -13,7 +13,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
 
+
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
+import static org.springframework.web.reactive.function.server.RouterFunctions.resourceLookupFunction;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
@@ -26,6 +29,13 @@ public class QuestionRouter {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(listUseCase.get(), QuestionDTO.class))
         );
+    }
+    @Bean
+    public RouterFunction<ServerResponse> entitiesRoute(ListUseCase listUseCase) {
+        return route(GET("/pagination/{pageNumber}"),
+                request -> ok().body(listUseCase.getPages(
+                        Integer.valueOf(request.pathVariable("pageNumber"))
+                ), QuestionDTO.class));
     }
 
     @Bean
