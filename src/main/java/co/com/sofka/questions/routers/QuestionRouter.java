@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
@@ -15,6 +17,7 @@ import java.util.function.Function;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Configuration
 public class QuestionRouter {
@@ -22,7 +25,7 @@ public class QuestionRouter {
     @Bean
     public RouterFunction<ServerResponse> getAll(ListUseCase listUseCase) {
         return route(GET("/getAll"),
-                request -> ServerResponse.ok()
+                request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(listUseCase.get(), QuestionDTO.class))
         );
@@ -32,7 +35,7 @@ public class QuestionRouter {
     public RouterFunction<ServerResponse> getOwnerAll(OwnerListUseCase ownerListUseCase) {
         return route(
                 GET("/getOwnerAll/{userId}"),
-                request -> ServerResponse.ok()
+                request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(
                                 ownerListUseCase.apply(request.pathVariable("userId")),
@@ -44,7 +47,7 @@ public class QuestionRouter {
     @Bean
     public RouterFunction<ServerResponse> create(CreateUseCase createUseCase) {
         Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  createUseCase.apply(questionDTO)
-                .flatMap(result -> ServerResponse.ok()
+                .flatMap(result -> ok()
                         .contentType(MediaType.TEXT_PLAIN)
                         .bodyValue(result));
 
@@ -58,7 +61,7 @@ public class QuestionRouter {
     public RouterFunction<ServerResponse> get(GetUseCase getUseCase) {
         return route(
                 GET("/get/{id}").and(accept(MediaType.APPLICATION_JSON)),
-                request -> ServerResponse.ok()
+                request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getUseCase.apply(
                                 request.pathVariable("id")),
@@ -67,12 +70,13 @@ public class QuestionRouter {
         );
     }
 
+
     @Bean
     public RouterFunction<ServerResponse> addAnswer(AddAnswerUseCase addAnswerUseCase) {
         return route(POST("/add").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class)
                         .flatMap(addAnswerDTO -> addAnswerUseCase.apply(addAnswerDTO)
-                                .flatMap(result -> ServerResponse.ok()
+                                .flatMap(result -> ok()
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
                         )
@@ -88,4 +92,15 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
+    @Bean
+    public RouterFunction<ServerResponse> getpages(ListUseCase listUseCase) {
+       return route(GET("/pagination/{pageNumber}"),
+                request -> ok().body(listUseCase.getPages(
+                        Integer.valueOf(request.pathVariable("pageNumber"))
+              ), QuestionDTO.class));
+    }
+
+
+
+
 }

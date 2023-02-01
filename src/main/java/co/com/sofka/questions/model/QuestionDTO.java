@@ -1,11 +1,14 @@
 package co.com.sofka.questions.model;
 
 
+import reactor.core.publisher.Mono;
+
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class QuestionDTO {
     private String id;
@@ -111,4 +114,6 @@ public class QuestionDTO {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
