@@ -29,6 +29,15 @@ public class QuestionRouter {
     }
 
     @Bean
+    public RouterFunction<ServerResponse> getAllPaged(ListPagedUseCase listPagedUseCase) {
+        return route(GET("/pagination/{page}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listPagedUseCase.get(Integer.parseInt(request.pathVariable("page"))), QuestionDTO.class))
+        );
+    }
+
+    @Bean
     public RouterFunction<ServerResponse> getOwnerAll(OwnerListUseCase ownerListUseCase) {
         return route(
                 GET("/getOwnerAll/{userId}"),
