@@ -60,6 +60,101 @@ public class QuestionRouter {
 
     @Bean
     @RouterOperation(
+            path = "/getQuestionPaged/{page}",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = ListUseCase.class,
+            beanMethod = "get",
+            operation = @Operation(
+                    operationId = "get",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "successful operation",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionDTO.class
+                                    ))
+                            ),
+                    },
+                    parameters = {
+                            @Parameter(in = ParameterIn.PATH,name = "page")
+                    }
+            )
+    )
+    public RouterFunction<ServerResponse> getQuestionPaged(ListPagedUseCase listPagedUseCase) {
+        return route(GET("/getQuestionPaged/{page}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listPagedUseCase.get(Integer.parseInt(request.pathVariable("page"))),
+                                QuestionDTO.class))
+
+        );
+    }
+
+
+    @Bean
+    @RouterOperation(
+            path = "/countQuestions",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = ListUseCase.class,
+            beanMethod = "getTotalQuestions",
+            operation = @Operation(
+                    operationId = "getTotalQuestions",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "successful operation",
+                                    content = @Content(schema = @Schema(
+                                            implementation = Long.class
+                                    ))
+                            ),
+                    }
+            )
+    )
+    public RouterFunction<ServerResponse> getTotalQuestions(ListPagedUseCase listPagedUseCase){
+        return route(GET("/countQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listPagedUseCase.getTotalQuestions(),
+                                Long.class)));
+    }
+
+    @Bean
+    @RouterOperation(
+            path = "/totalPages",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = ListUseCase.class,
+            beanMethod = "getTotalPages",
+            operation = @Operation(
+                    operationId = "getTotalPages",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "successful operation",
+                                    content = @Content(schema = @Schema(
+                                            implementation = Integer.class
+                                    ))
+                            ),
+                    }
+            )
+    )
+    public RouterFunction<ServerResponse> getTotalPages(ListPagedUseCase listPagedUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listPagedUseCase.getTotalPages(), Integer.class)));
+    }
+
+    @Bean
+    @RouterOperation(
             path = "/getOwnerAll/{userId}",
             produces = {
                     MediaType.APPLICATION_JSON_VALUE
@@ -228,7 +323,6 @@ public class QuestionRouter {
                     parameters = {
                             @Parameter(in = ParameterIn.PATH,name = "id")
                     }
-
             )
     )
     public RouterFunction<ServerResponse> delete(DeleteUseCase deleteUseCase) {
@@ -239,4 +333,13 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
+//    @Bean
+//    public RouterFunction<ServerResponse> updateQuestion(UpdateUseCase updateUseCase,QuestionDTO questionDTO) {
+//        return route(
+//                DELETE("/update/{id}").and(accept(MediaType.APPLICATION_JSON)),
+//                request -> ServerResponse.accepted()
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(BodyInserters.fromPublisher(updateUseCase.apply(questionDTO)), QuestionDTO.class)
+//        );
+//    }
 }
