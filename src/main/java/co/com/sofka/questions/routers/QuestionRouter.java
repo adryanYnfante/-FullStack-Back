@@ -28,6 +28,16 @@ public class QuestionRouter {
         );
     }
 
+    // ceraerear
+    @Bean
+    public RouterFunction<ServerResponse> getQuestionPageable(ListUseCase listUseCase) {
+        return route(GET("/pagination/{page}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getPage(Integer.parseInt(request.pathVariable("page"))), QuestionDTO.class))
+        );
+    }
+
     @Bean
     public RouterFunction<ServerResponse> getOwnerAll(OwnerListUseCase ownerListUseCase) {
         return route(
@@ -37,13 +47,13 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(
                                 ownerListUseCase.apply(request.pathVariable("userId")),
                                 QuestionDTO.class
-                         ))
+                        ))
         );
     }
 
     @Bean
     public RouterFunction<ServerResponse> create(CreateUseCase createUseCase) {
-        Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  createUseCase.apply(questionDTO)
+        Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO -> createUseCase.apply(questionDTO)
                 .flatMap(result -> ServerResponse.ok()
                         .contentType(MediaType.TEXT_PLAIN)
                         .bodyValue(result));
@@ -61,7 +71,7 @@ public class QuestionRouter {
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getUseCase.apply(
-                                request.pathVariable("id")),
+                                        request.pathVariable("id")),
                                 QuestionDTO.class
                         ))
         );
@@ -87,5 +97,21 @@ public class QuestionRouter {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getTotalPage(ListUseCase listUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getTotalPages(), Integer.class)));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getTotalQuestions(ListUseCase listUseCase) {
+        return route(GET("/countQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getTotalQuestions(), Long.class)));
     }
 }
