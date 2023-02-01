@@ -88,4 +88,30 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> getQuestionPageable(ListUseCase listUseCase){
+        return route(GET("/pagination/{page}"), request-> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(listUseCase.getPage(Integer.parseInt(request.pathVariable("page"))), QuestionDTO.class))
+        );
+
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getTotalQuestions(ListUseCase listUseCase) {
+        return route(GET("/countQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getTotalQuestions(), Long.class)));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getTotalPage(ListUseCase listUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getTotalPages(), Integer.class)));
+    }
+
 }

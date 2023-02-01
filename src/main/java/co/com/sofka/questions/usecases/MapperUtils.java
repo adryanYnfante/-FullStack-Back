@@ -49,7 +49,9 @@ public class MapperUtils {
         return entity -> new AnswerDTO(
                 entity.getId(),
                 entity.getUserId(),
-                entity.getAnswer()
+                entity.getAnswer(),
+                entity.getPosition()
+
         );
     }
 }
