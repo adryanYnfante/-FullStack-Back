@@ -30,7 +30,7 @@ public class ListUseCase implements Supplier<Flux<QuestionDTO>> {
     }
 
     public Flux<QuestionDTO> getPage(int page){
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 6);
         return questionRepository.findAllByIdNotNullOrderByIdAsc(pageable)
                 .map(mapperUtils.mapEntityToQuestion());
     }
@@ -40,8 +40,7 @@ public class ListUseCase implements Supplier<Flux<QuestionDTO>> {
     }
 
     public Mono<Integer> getTotalPages() {
-
-        return questionRepository.count().map(count ->(int) Math.ceil(count/10D));
+        return questionRepository.count().map(count ->(int) Math.ceil(count/6D));
     }
 
 }
