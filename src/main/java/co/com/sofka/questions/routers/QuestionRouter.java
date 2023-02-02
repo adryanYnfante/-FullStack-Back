@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
@@ -97,6 +98,33 @@ public class QuestionRouter {
     }
 
     @Bean
+    @RouterOperation(
+            path = "/getOwnerAll/{userId}",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = QuestionRouter.class,
+            beanMethod = "getOwnerAll",
+            operation = @Operation(
+                    operationId = "getOwnerAll",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                            @ApiResponse(
+                                    responseCode  ="400", description = "Not found"
+                            )
+                    },
+                    parameters = {
+                            @Parameter(in = ParameterIn.PATH, name = "userId")
+                    }
+            )
+    )
     public RouterFunction<ServerResponse> getOwnerAll(OwnerListUseCase ownerListUseCase) {
         return route(
                 GET("/getOwnerAll/{userId}"),
@@ -110,6 +138,32 @@ public class QuestionRouter {
     }
 
     @Bean
+    @RouterOperation(
+            path = "/create",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.POST,
+            beanClass = QuestionRouter.class,
+            beanMethod = "create",
+            operation = @Operation(
+                    operationId = "create",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                            @ApiResponse(
+                                    responseCode  ="400", description = "Not found"
+                            ),
+                    },
+                    requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = QuestionRouter.class)))
+
+            )
+    )
     public RouterFunction<ServerResponse> create(CreateUseCase createUseCase) {
         Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  createUseCase.apply(questionDTO)
                 .flatMap(result -> ServerResponse.ok()
