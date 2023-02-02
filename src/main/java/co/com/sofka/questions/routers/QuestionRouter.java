@@ -177,6 +177,33 @@ public class QuestionRouter {
     }
 
     @Bean
+    @RouterOperation(
+            path = "/get/{id}",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = QuestionRouter.class,
+            beanMethod = "get",
+            operation = @Operation(
+                    operationId = "get",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                            @ApiResponse(
+                                    responseCode  ="400", description = "Not found"
+                            )
+                    },
+                    parameters = {
+                            @Parameter(in = ParameterIn.PATH, name = "id")
+                    }
+            )
+    )
     public RouterFunction<ServerResponse> get(GetUseCase getUseCase) {
         return route(
                 GET("/get/{id}").and(accept(MediaType.APPLICATION_JSON)),
@@ -190,6 +217,32 @@ public class QuestionRouter {
     }
 
     @Bean
+    @RouterOperation(
+            path = "/add",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.POST,
+            beanClass = QuestionRouter.class,
+            beanMethod = "addAnswer",
+            operation = @Operation(
+                    operationId = "addAnswer",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                            @ApiResponse(
+                                    responseCode  ="400", description = "Not found"
+                            ),
+                    },
+                    requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = QuestionRouter.class)))
+
+            )
+    )
     public RouterFunction<ServerResponse> addAnswer(AddAnswerUseCase addAnswerUseCase) {
         return route(POST("/add").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class)
@@ -201,6 +254,32 @@ public class QuestionRouter {
         );
     }
     @Bean
+    @RouterOperation(
+            path = "/add",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.POST,
+            beanClass = QuestionRouter.class,
+            beanMethod = "updateAnswer",
+            operation = @Operation(
+                    operationId = "updateAnswer",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                            @ApiResponse(
+                                    responseCode  ="400", description = "Not found"
+                            ),
+                    },
+                    requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = QuestionRouter.class)))
+
+            )
+    )
     public RouterFunction<ServerResponse> updateAnswer(AddAnswerUseCase addAnswerUseCase) {
         return route(POST("/add").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class)
@@ -213,6 +292,32 @@ public class QuestionRouter {
     }
 
     @Bean
+    @RouterOperation(
+            path = "/update",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.POST,
+            beanClass = QuestionRouter.class,
+            beanMethod = "editQuestion",
+            operation = @Operation(
+                    operationId = "editQuestion",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                            @ApiResponse(
+                                    responseCode  ="400", description = "Not found"
+                            ),
+                    },
+                    requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = QuestionRouter.class)))
+
+            )
+    )
     public RouterFunction<ServerResponse> editQuestion(UpdateUseCase updateUseCaseAnswerUseCase) {
         return route(POST("/update").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(QuestionDTO.class)
@@ -225,6 +330,32 @@ public class QuestionRouter {
     }
 
     @Bean
+    @RouterOperation(
+            path = "/delete/{id}",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.DELETE,
+            beanClass = QuestionRouter.class,
+            beanMethod = "delete",
+            operation = @Operation(
+                    operationId = "delete",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                            @ApiResponse(
+                                    responseCode  ="400", description = "Not found"
+                            ),
+                    },
+                    parameters = @Parameter(in = ParameterIn.PATH, name = "id")
+
+            )
+    )
     public RouterFunction<ServerResponse> delete(DeleteUseCase deleteUseCase) {
         return route(
                 DELETE("/delete/{id}").and(accept(MediaType.APPLICATION_JSON)),
