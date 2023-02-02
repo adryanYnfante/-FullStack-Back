@@ -27,8 +27,7 @@ public class GetUseCase implements Function<String, Mono<QuestionDTO>> {
     public Mono<QuestionDTO> apply(String id) {
         Objects.requireNonNull(id, "Id is required");
         return questionRepository.findById(id)
-                .map(mapperUtils.mapEntityToQuestion())
-                .flatMap(mapQuestionAggregate());
+                .map(mapperUtils.mapEntityToQuestion());
     }
 
     private Function<QuestionDTO, Mono<QuestionDTO>> mapQuestionAggregate() {
