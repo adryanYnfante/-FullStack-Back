@@ -27,10 +27,11 @@ public class GetUseCase implements Function<String, Mono<QuestionDTO>> {
     public Mono<QuestionDTO> apply(String id) {
         Objects.requireNonNull(id, "Id is required");
         return questionRepository.findById(id)
-                .map(mapperUtils.mapEntityToQuestion());
+                .map(mapperUtils.mapEntityToQuestion())
+                .flatMap(mapQuestionAggregate());
     }
 
-    private Function<QuestionDTO, Mono<QuestionDTO>> mapQuestionAggregate() {
+    public Function<QuestionDTO, Mono<QuestionDTO>> mapQuestionAggregate() {
         return questionDTO ->
                 Mono.just(questionDTO).zipWith(
                         answerRepository.findAllByQuestionId(questionDTO.getId())
