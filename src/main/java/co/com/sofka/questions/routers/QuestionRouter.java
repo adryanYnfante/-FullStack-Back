@@ -3,9 +3,15 @@ package co.com.sofka.questions.routers;
 import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.usecases.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -20,6 +26,28 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class QuestionRouter {
 
     @Bean
+    @RouterOperation(
+            // Obtener todas las preguntas
+            path = "/getAll",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = ListUseCase.class,
+            beanMethod = "get",
+            operation = @Operation(
+                    operationId = "get",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Operación exitosa!",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionDTO.class
+                                    ))
+                            ),
+                    }
+            )
+    )
     public RouterFunction<ServerResponse> getAll(ListUseCase listUseCase) {
         return route(GET("/getAll"),
                 request -> ServerResponse.ok()
@@ -28,7 +56,6 @@ public class QuestionRouter {
         );
     }
 
-    // ceraerear
     @Bean
     public RouterFunction<ServerResponse> getQuestionPageable(ListUseCase listUseCase) {
         return route(GET("/pagination/{page}"),
@@ -55,7 +82,7 @@ public class QuestionRouter {
     public RouterFunction<ServerResponse> create(CreateUseCase createUseCase) {
         Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO -> createUseCase.apply(questionDTO)
                 .flatMap(result -> ServerResponse.ok()
-                        .contentType(MediaType.TEXT_PLAIN)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(result));
 
         return route(
@@ -113,5 +140,17 @@ public class QuestionRouter {
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(listUseCase.getTotalQuestions(), Long.class)));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> updateQuestion(UpdateUseCase updateUseCase) {
+        Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  updateUseCase.apply(questionDTO)
+                .flatMap(result -> ServerResponse.accepted()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(result));
+        return route(
+                PUT("/update").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(QuestionDTO.class).flatMap(executor)
+        );
     }
 }
