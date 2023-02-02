@@ -40,14 +40,14 @@ class UpdateUseCaseTest {
     @Test
     void getValidationTest(){
         Question question = new Question();
-        QuestionDTO questionDTO =new QuestionDTO("300","julian2345","accion","accion","accion");
+        QuestionDTO questionDTO =new QuestionDTO("300","132838","Es buena","abierta","peliculas");
         question.setId(questionDTO.getId());
         question.setUserId(questionDTO.getUserId());
         question.setQuestion(questionDTO.getQuestion());
         question.setType(questionDTO.getType());
         question.setCategory(questionDTO.getCategory());
 
-        
+
         Mockito.when(questionRepository.save(question)).thenReturn(Mono.just(mapperUtils.mapperToQuestion(questionDTO.getId()).apply(questionDTO)));
 
         StepVerifier.create(updateUseCase.apply(questionDTO))

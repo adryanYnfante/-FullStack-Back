@@ -34,7 +34,7 @@ class DeleteUseCaseTest {
     @Test
     public void deleteHappyPass(){
         Question question = new Question();
-        QuestionDTO questionDTO =new QuestionDTO("300","julian2345","accion","accion","accion");
+        QuestionDTO questionDTO =new QuestionDTO("300","132838","Es buena","abierta","peliculas");
         question.setId(questionDTO.getId());
         question.setUserId(questionDTO.getUserId());
         question.setQuestion(questionDTO.getQuestion());
@@ -44,7 +44,7 @@ class DeleteUseCaseTest {
         List<AnswerDTO> answersDTO = new ArrayList<>();
 
         Answer answer = new Answer();
-        AnswerDTO    answerDTO= new AnswerDTO("300","julian2345","super peli",5);
+        AnswerDTO    answerDTO= new AnswerDTO("300","132838","ok",5);
 
         answer.setQuestionId(answerDTO.getQuestionId());
         answer.setUserId(answerDTO.getUserId());

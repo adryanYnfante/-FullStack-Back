@@ -39,7 +39,7 @@ class AddAnswerUseCaseTest {
     @Test
     public void addAnswerHappyPass(){
         Question question = new Question();
-        QuestionDTO questionDTO =new QuestionDTO("300","julian2345","accion","accion","accion");
+        QuestionDTO questionDTO =new QuestionDTO("300","132838","Es buena","abierta","peliculas");
         question.setId(questionDTO.getId());
         question.setUserId(questionDTO.getUserId());
         question.setQuestion(questionDTO.getQuestion());
@@ -49,7 +49,7 @@ class AddAnswerUseCaseTest {
         List<AnswerDTO> answersDTO = new ArrayList<>();
 
         Answer answer = new Answer();
-        AnswerDTO    answerDTO= new AnswerDTO("300","julian2345","super peli",5);
+        AnswerDTO    answerDTO= new AnswerDTO("300","132838","ok",5);
 
         answer.setQuestionId(answerDTO.getQuestionId());
         answer.setUserId(answerDTO.getUserId());
@@ -65,10 +65,10 @@ class AddAnswerUseCaseTest {
         StepVerifier.create(addAnswerUseCase.apply(answerDTO))
                 .expectNextMatches(MonoQ -> {
                     assert  MonoQ.getId().equals("300");
-                    assert MonoQ.getUserId().equals("julian2345");
-                    assert MonoQ.getCategory().equals("accion");
-                    assert MonoQ.getQuestion().equals("accion");
-                    assert MonoQ.getType().equals("accion");
+                    assert MonoQ.getUserId().equals("132838");
+                    assert MonoQ.getCategory().equals("peliculas");
+                    assert MonoQ.getQuestion().equals("Es buena");
+                    assert MonoQ.getType().equals("abierta");
                     assert MonoQ.getAnswers().contains(answerDTO);
                     System.out.println(MonoQ.toString());
                     System.out.println(MonoQ.getAnswers().toString());

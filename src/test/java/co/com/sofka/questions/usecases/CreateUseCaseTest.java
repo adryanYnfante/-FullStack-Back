@@ -41,7 +41,7 @@ class CreateUseCaseTest {
     @Test
     void getValidationTest(){
         Question question = new Question();
-        QuestionDTO questionDTO =new QuestionDTO("300","julian2345","accion","accion","accion");
+        QuestionDTO questionDTO =new QuestionDTO("300","132838","Es buena","abierta","peliculas");
         question.setId(questionDTO.getId());
         question.setUserId(questionDTO.getUserId());
         question.setQuestion(questionDTO.getQuestion());
