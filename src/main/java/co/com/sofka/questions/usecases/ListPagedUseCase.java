@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.function.Supplier;
 
@@ -21,8 +22,12 @@ public class ListPagedUseCase {
     }
 
     public Flux<QuestionDTO> get(int page) {
-        return questionRepository.findAllByIdNotNullOrderByIdAsc(PageRequest.of(page, 2))
+        return questionRepository.findAllByIdNotNullOrderByIdAsc(PageRequest.of(page, 6))
                 .map(mapperUtils.mapEntityToQuestion());
+    }
+
+    public Mono<Integer> getTotalPages() {
+        return questionRepository.count().map(count -> (int) Math.ceil(count/6)+1);
     }
 
 }
