@@ -66,9 +66,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.GET,
             beanClass = OwnerListUseCase.class,
-            beanMethod = "get",
+            beanMethod = "apply",
             operation = @Operation(
-                    operationId = "get",
+                    operationId = "apply",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -103,9 +103,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.POST,
             beanClass = CreateUseCase.class,
-            beanMethod = "post",
+            beanMethod = "apply",
             operation = @Operation(
-                    operationId = "post",
+                    operationId = "apply",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -137,9 +137,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.GET,
             beanClass = GetUseCase.class,
-            beanMethod = "get",
+            beanMethod = "apply",
             operation = @Operation(
-                    operationId = "get",
+                    operationId = "apply",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -174,9 +174,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.POST,
             beanClass = AddAnswerUseCase.class,
-            beanMethod = "post",
+            beanMethod = "apply",
             operation = @Operation(
-                    operationId = "post",
+                    operationId = "apply",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -207,9 +207,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.DELETE,
             beanClass = DeleteUseCase.class,
-            beanMethod = "delete",
+            beanMethod = "apply",
             operation = @Operation(
-                    operationId = "delete",
+                    operationId = "apply",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -241,9 +241,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.GET,
             beanClass = ListUseCase.class,
-            beanMethod = "get",
+            beanMethod = "getPage",
             operation = @Operation(
-                    operationId = "get",
+                    operationId = "getPage",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -274,9 +274,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.GET,
             beanClass = ListUseCase.class,
-            beanMethod = "get",
+            beanMethod = "getTotalPages",
             operation = @Operation(
-                    operationId = "get",
+                    operationId = "getTotalPages",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -303,9 +303,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.GET,
             beanClass = ListUseCase.class,
-            beanMethod = "get",
+            beanMethod = "getTotalQuestions",
             operation = @Operation(
-                    operationId = "get",
+                    operationId = "getTotalQuestions",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -332,9 +332,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.PUT,
             beanClass = UpdateUseCase.class,
-            beanMethod = "put",
+            beanMethod = "apply",
             operation = @Operation(
-                    operationId = "put",
+                    operationId = "apply",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -365,9 +365,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.PUT,
             beanClass = AddAnswerUseCase.class,
-            beanMethod = "put",
+            beanMethod = "updateAnswer",
             operation = @Operation(
-                    operationId = "put",
+                    operationId = "updateAnswer",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
