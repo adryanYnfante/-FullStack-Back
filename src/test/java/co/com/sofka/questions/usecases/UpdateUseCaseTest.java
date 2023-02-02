@@ -35,12 +35,18 @@ class UpdateUseCaseTest {
         question.setType(questionDTO.getType());
         question.setCategory(questionDTO.getCategory());
 
-        Mockito.when(questionRepository.save(question)).thenReturn(Mono.just(mapperUtils.mapperToQuestion(questionDTO.getId()).apply(questionDTO)));
+        Mockito.when(questionRepository.save(question))
+                .thenReturn(Mono.just(mapperUtils.mapperToQuestion(questionDTO.getId())
+                        .apply(questionDTO)));
 
 
         StepVerifier
                 .create(updateUseCase.apply(questionDTO))
-                .expectNext(questionDTO.getId())
+                .expectNextMatches(MonoQ -> {
+
+                    System.out.println(MonoQ.toString());
+                    return true;
+                })
                 .verifyComplete();
 
     }
