@@ -22,13 +22,13 @@ public class AddAnswerUseCase implements SaveAnswer {
         this.mapperUtils = mapperUtils;
     }
 
-    public Mono<QuestionDTO> apply(AnswerDTO answerDTO) {
+    public Mono<AnswerDTO> apply(AnswerDTO answerDTO) {
         Objects.requireNonNull(answerDTO.getQuestionId(), "Id of the answer is required");
         return getUseCase.apply(answerDTO.getQuestionId()).flatMap(question ->
                 answerRepository.save(mapperUtils.mapperToAnswer().apply(answerDTO))
                         .map(answer -> {
                             question.getAnswers().add(answerDTO);
-                            return question;
+                            return answerDTO;
                         })
         );
     }
