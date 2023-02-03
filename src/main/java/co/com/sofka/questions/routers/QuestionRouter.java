@@ -374,6 +374,33 @@ public class QuestionRouter {
         );
     }
 
+    @RouterOperation(
+            path = "/updateAnswer",
+            produces ={
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.PUT,
+            beanClass = QuestionRouter.class,
+            beanMethod = "updateAnswer",
+            operation = @Operation(
+                    operationId = "updateAnswer",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "successful operation",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            )
+                    },
+                    requestBody = @RequestBody(
+                            content = @Content(schema = @Schema(
+                                    implementation = QuestionDTO.class
+                            ))
+                    )
+            )
+    )
+
     @Bean
     public RouterFunction<ServerResponse> updateAnswer(UpdateAnswerUseCase updateAnswerUseCase) {
         Function<AnswerDTO, Mono<ServerResponse>> executor = answerDTO ->  updateAnswerUseCase.apply(answerDTO)
