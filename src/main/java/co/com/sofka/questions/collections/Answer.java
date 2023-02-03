@@ -3,7 +3,7 @@ package co.com.sofka.questions.collections;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "answer")
 public class Answer {
     @Id
     private String id;
