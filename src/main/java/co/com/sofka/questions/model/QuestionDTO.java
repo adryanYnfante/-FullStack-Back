@@ -1,12 +1,13 @@
 package co.com.sofka.questions.model;
 
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 public class QuestionDTO {
     private String id;
     @NotBlank
