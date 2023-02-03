@@ -395,7 +395,7 @@ public class QuestionRouter {
                     },
                     requestBody = @RequestBody(
                             content = @Content(schema = @Schema(
-                                    implementation = QuestionDTO.class
+                                    implementation = AnswerDTO.class
                             ))
                     )
             )
