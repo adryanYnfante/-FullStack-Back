@@ -30,4 +30,4 @@
 ### Autor
 [@Nirsch95](https://github.com/Nirsch95) - Andrés Castro :wolf:
 
-Everything is solved in the develop branch, new things were learned.
+Everything is solved in the main branch, new things were learned.
