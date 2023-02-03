@@ -2,10 +2,11 @@ package co.com.sofka.questions.usecases;
 
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.reposioties.QuestionRepository;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
-
 import java.util.function.Supplier;
 
 @Service
@@ -25,4 +26,9 @@ public class ListUseCase implements Supplier<Flux<QuestionDTO>> {
                 .map(mapperUtils.mapEntityToQuestion());
     }
 
+
+    public Flux<QuestionDTO>getPage(int page) {
+        return questionRepository.findAllBy(PageRequest.of(page, 5))
+                .map(mapperUtils.mapEntityToQuestion());
+    }
 }

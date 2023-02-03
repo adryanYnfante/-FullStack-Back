@@ -4,7 +4,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Document
+
+@Document(
+        collection = "preguntas"
+)
+
 public class Question {
     @Id
     private String id;

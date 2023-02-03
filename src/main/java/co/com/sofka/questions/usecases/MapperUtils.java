@@ -11,9 +11,11 @@ import java.util.function.Function;
 @Component
 public class MapperUtils {
 
-    public Function<AnswerDTO, Answer> mapperToAnswer() {
+
+    public Function<AnswerDTO, Answer> mapperToAnswer(String id) {
         return updateAnswer -> {
             var answer = new Answer();
+            answer.setId(id);
             answer.setPosition(updateAnswer.getPosition());
             answer.setQuestionId(updateAnswer.getQuestionId());
             answer.setUserId(updateAnswer.getUserId());
@@ -49,7 +51,11 @@ public class MapperUtils {
         return entity -> new AnswerDTO(
                 entity.getId(),
                 entity.getUserId(),
-                entity.getAnswer()
+                entity.getQuestionId(),
+                entity.getAnswer(),
+                entity.getPosition()
+
+
         );
     }
 }
