@@ -66,9 +66,9 @@ public class QuestionRouter {
             },
             method = RequestMethod.GET,
             beanClass = QuestionRouter.class,
-            beanMethod = "getAll",
+            beanMethod = "getOwnerAll",
             operation = @Operation(
-                    operationId = "getAll",
+                    operationId = "getOwnerAll",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
