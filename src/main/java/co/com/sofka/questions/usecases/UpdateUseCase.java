@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
-
 @Service
 @Validated
 public class UpdateUseCase implements SaveQuestion {
@@ -28,6 +27,5 @@ public class UpdateUseCase implements SaveQuestion {
                 .save(mapperUtils.mapperToQuestion(dto.getId()).apply(dto))
                 .map(Question::getId);
     }
-
 
 }

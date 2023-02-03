@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class AnswerDTO {
+
+    private String id;
     @NotBlank(message = "Debe existir el userId para este objeto")
     private String userId;
     @NotBlank
@@ -16,15 +18,23 @@ public class AnswerDTO {
     private Integer position;
 
 
-    public AnswerDTO() {
 
-    }
+    public AnswerDTO( String questionId, @NotBlank String userId, @NotBlank String answer,@NotBlank Integer position) {
 
-    public AnswerDTO(@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer) {
         this.userId = userId;
         this.questionId = questionId;
         this.answer = answer;
+        this.position = position;
     }
+
+    public AnswerDTO(String id,@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer,@NotBlank Integer position) {
+        this.id = id;
+        this.userId = userId;
+        this.questionId = questionId;
+        this.answer = answer;
+        this.position = position;
+    }
+
 
     public Integer getPosition() {
         return Optional.ofNullable(position).orElse(1);
@@ -34,6 +44,9 @@ public class AnswerDTO {
         this.position = position;
     }
 
+    public String getId() {return id;}
+
+    public String setId(String id){return id;};
 
     public String getUserId() {
         return userId;
@@ -64,12 +77,12 @@ public class AnswerDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnswerDTO answerDTO = (AnswerDTO) o;
-        return Objects.equals(userId, answerDTO.userId);
+        return Objects.equals(id, answerDTO.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(id);
     }
 
     @Override
