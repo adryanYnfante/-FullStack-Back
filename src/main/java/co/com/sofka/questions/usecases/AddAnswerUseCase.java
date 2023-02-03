@@ -1,8 +1,10 @@
 package co.com.sofka.questions.usecases;
 
+import co.com.sofka.questions.collections.Answer;
 import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.reposioties.AnswerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
@@ -11,6 +13,7 @@ import java.util.Objects;
 
 @Service
 @Validated
+@Slf4j
 public class AddAnswerUseCase implements SaveAnswer {
     private final AnswerRepository answerRepository;
     private final MapperUtils mapperUtils;
@@ -24,11 +27,13 @@ public class AddAnswerUseCase implements SaveAnswer {
 
     public Mono<AnswerDTO> apply(AnswerDTO answerDTO) {
         Objects.requireNonNull(answerDTO.getQuestionId(), "Id of the answer is required");
-        System.out.println(answerDTO.getId());
+
+        Answer answerMap = mapperUtils.mapperToAnswer2().apply(answerDTO);
+
         return getUseCase.apply(answerDTO.getQuestionId()).flatMap(question ->
-                answerRepository.save(mapperUtils.mapperToAnswer(null).apply(answerDTO))
+                answerRepository.save(answerMap)
                         .map(answer -> {
-                            System.out.println(answerDTO.getId());
+                            answerDTO.setId(answerMap.getId());
                             question.getAnswers().add(answerDTO);
                             return answerDTO;
                         })

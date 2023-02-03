@@ -36,6 +36,10 @@ public class AnswerDTO {
         this.position = position;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
@@ -91,6 +95,8 @@ public class AnswerDTO {
         return "AnswerDTO{" +
                 "userId='" + userId + '\'' +
                 ", questionId='" + questionId + '\'' +
+                ", id='" + id + '\'' +
+                ", position='" + position + '\'' +
                 ", answer='" + answer + '\'' +
                 '}';
     }
