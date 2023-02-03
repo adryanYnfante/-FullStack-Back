@@ -13,15 +13,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
-import org.springdoc.core.annotations.RouterOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
-import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
@@ -314,8 +311,51 @@ public class QuestionRouter {
     }
 
 
+    @Bean
+    @RouterOperation(path="/countQuestions",
+            produces={MediaType.APPLICATION_JSON_VALUE},method = RequestMethod.GET,
+            beanClass =QuestionRouter.class ,
+            beanMethod = "getTotalQuestions",
+            operation = @Operation(operationId = "getTotalQuestions",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "ok",
+                                    content = @Content(schema=@Schema(implementation = Long.class))
+                            ),@ApiResponse(responseCode = "404",description ="ERROR")
+                    }))
+    public RouterFunction<ServerResponse> getTotalQuestions(GetTotalQuestionsUseCase getTotalQuestionsUseCase ) {
+        return route(GET("/countQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getTotalQuestionsUseCase.getTotalQuestions(), Long.class))
+        );
+    }
+
+
+    @Bean
+    @RouterOperation(path="/totalPages",
+            produces={MediaType.APPLICATION_JSON_VALUE},method = RequestMethod.GET,
+            beanClass =QuestionRouter.class ,
+            beanMethod = "getTotalPages",
+            operation = @Operation(operationId = "getTotalPages",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "ok",
+                                    content = @Content(schema=@Schema(implementation = Integer.class))
+                            ),@ApiResponse(responseCode = "404",description ="ERROR")
+                    }))
+    public RouterFunction<ServerResponse> getTotalPages(GetTotalPageUseCase getTotalPageUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getTotalPageUseCase.getTotalPages(), Integer.class))
+        );
 
 
 
 
-}
+
+
+    }}

@@ -44,7 +44,8 @@ class UpdateUseCaseTest {
                 .create(updateUseCase.apply(questionDTO))
                 .expectNextMatches(MonoQ -> {
 
-                    System.out.println(MonoQ.toString());
+                    assert MonoQ.equals("300");
+                    System.out.println(MonoQ);
                     return true;
                 })
                 .verifyComplete();

@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.function.Supplier;
 
@@ -27,9 +28,10 @@ public class ListUseCase implements Supplier<Flux<QuestionDTO>> {
     }
 
     public  Flux<QuestionDTO> getPages(int pageNumber) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, 5);
+        PageRequest pageRequest = PageRequest.of(pageNumber, 6);
         return questionRepository.findAllBy(pageRequest);
     }
+
 
 
 }
