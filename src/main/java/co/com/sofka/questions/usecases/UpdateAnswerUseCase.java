@@ -22,19 +22,12 @@ public class UpdateAnswerUseCase{
         this.mapperUtils = mapperUtils;
     }
 
-/*    @Override
-    public Mono<AnswerDTO> apply(AnswerDTO answerDTO) {
 
-        //Objects.requireNonNull(answerDTO.getQuestionId(), "Id of the question is required");
-        return answerRepository.findById(answerDTO.getId())
-                .flatMap(
-                        oldAnswer -> {
-                            oldAnswer.setAnswer(answerDTO.getAnswer());
-                            oldAnswer.setPosition(answerDTO.getPosition());
-                             answerRepository.save(oldAnswer);
-                             return answerDTO;
+    public Mono<String> apply(AnswerDTO answerDTO) {
 
-                        }
-                );
-    }*/
+        Objects.requireNonNull(answerDTO.getQuestionId(), "Id of the question is required");
+        return answerRepository
+                .save(mapperUtils.mapperToAnswer(answerDTO.getId()).apply(answerDTO))
+                .map(Answer::getId);
+    }
 }

@@ -374,7 +374,7 @@ public class QuestionRouter {
         );
     }
 
-/*    @Bean
+    @Bean
     public RouterFunction<ServerResponse> updateAnswer(UpdateAnswerUseCase updateAnswerUseCase) {
         Function<AnswerDTO, Mono<ServerResponse>> executor = answerDTO ->  updateAnswerUseCase.apply(answerDTO)
                 .flatMap(result -> ServerResponse.ok()
@@ -385,6 +385,6 @@ public class QuestionRouter {
                 PUT("/updateAnswer").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class).flatMap(executor)
         );
-    }*/
+    }
 
 }

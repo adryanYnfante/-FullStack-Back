@@ -29,7 +29,7 @@ class AddAnswerUseCaseTest {
     @Test
     public void addAnswerUseCaseTest(){
         AnswerDTO answerDTO = new AnswerDTO("idAnswer","300","idUser","answer",5);
-        Answer answer = mapperUtils.mapperToAnswer().apply(answerDTO);
+        Answer answer = mapperUtils.mapperToAnswer(null).apply(answerDTO);
 
         Answer answer1 = Mockito.mock(Answer.class);
 
