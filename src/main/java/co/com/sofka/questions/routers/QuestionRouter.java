@@ -19,7 +19,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-
 import java.util.function.Function;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
@@ -333,13 +332,29 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
-//    @Bean
-//    public RouterFunction<ServerResponse> updateQuestion(UpdateUseCase updateUseCase,QuestionDTO questionDTO) {
-//        return route(
-//                DELETE("/update/{id}").and(accept(MediaType.APPLICATION_JSON)),
-//                request -> ServerResponse.accepted()
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .body(BodyInserters.fromPublisher(updateUseCase.apply(questionDTO)), QuestionDTO.class)
-//        );
-//    }
+    @Bean
+    public RouterFunction<ServerResponse> updateQuestion(UpdateUseCase updateUseCase) {
+        Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  updateUseCase.apply(questionDTO)
+                .flatMap(result -> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .bodyValue(result));
+
+        return route(
+                POST("/update").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(QuestionDTO.class).flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> updateAnswer(UpdateAnswerUseCase updateAnswerUseCase) {
+        Function<AnswerDTO, Mono<ServerResponse>> executor = answerDTO ->  updateAnswerUseCase.apply(answerDTO)
+                .flatMap(result -> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .bodyValue(result));
+
+        return route(
+                PUT("/updateAnswer").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(AnswerDTO.class).flatMap(executor)
+        );
+    }
 }

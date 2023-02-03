@@ -1,7 +1,10 @@
 package co.com.sofka.questions.collections;
 
+import co.com.sofka.questions.model.AnswerDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 
 @Document
@@ -12,7 +15,7 @@ public class Question {
     private String question;
     private String type;
     private String category;
-
+    private List<AnswerDTO> answers;
 
     public String getId() {
         return id;
@@ -52,5 +55,11 @@ public class Question {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public List<AnswerDTO> getAnswers() {return answers;
+    }
+
+    public void setAnswers(List<AnswerDTO> answers) {this.answers = answers;
     }
 }
