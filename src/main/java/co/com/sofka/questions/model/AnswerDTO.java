@@ -19,6 +19,14 @@ public class AnswerDTO {
 
 
 
+    public AnswerDTO( String questionId, @NotBlank String userId, @NotBlank String answer,@NotBlank Integer position) {
+
+        this.userId = userId;
+        this.questionId = questionId;
+        this.answer = answer;
+        this.position = position;
+    }
+
     public AnswerDTO(String id,@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer,@NotBlank Integer position) {
         this.id = id;
         this.userId = userId;
@@ -26,15 +34,7 @@ public class AnswerDTO {
         this.answer = answer;
         this.position = position;
     }
-/*
-    public AnswerDTO(String id,@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer,@NotBlank Integer position) {
-        this.id = id;
-        this.userId = userId;
-        this.questionId = questionId;
-        this.answer = answer;
-        this.position = position;
-    }
-    */
+
 
     public Integer getPosition() {
         return Optional.ofNullable(position).orElse(1);

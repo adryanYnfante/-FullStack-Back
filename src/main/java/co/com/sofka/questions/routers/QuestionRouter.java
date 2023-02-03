@@ -64,7 +64,7 @@ public class QuestionRouter {
                     MediaType.APPLICATION_JSON_VALUE
             },
             method = RequestMethod.GET,
-            beanClass = ListUseCase.class,
+            beanClass = ListPagedUseCase.class,
             beanMethod = "get",
             operation = @Operation(
                     operationId = "get",
@@ -78,7 +78,7 @@ public class QuestionRouter {
                             ),
                     },
                     parameters = {
-                            @Parameter(in = ParameterIn.PATH,name = "page")
+                            @Parameter(in = ParameterIn.PATH, name = "page")
                     }
             )
     )
@@ -100,7 +100,7 @@ public class QuestionRouter {
                     MediaType.APPLICATION_JSON_VALUE
             },
             method = RequestMethod.GET,
-            beanClass = ListUseCase.class,
+            beanClass = ListPagedUseCase.class,
             beanMethod = "getTotalQuestions",
             operation = @Operation(
                     operationId = "getTotalQuestions",
@@ -115,7 +115,7 @@ public class QuestionRouter {
                     }
             )
     )
-    public RouterFunction<ServerResponse> getTotalQuestions(ListPagedUseCase listPagedUseCase){
+    public RouterFunction<ServerResponse> getTotalQuestions(ListPagedUseCase listPagedUseCase) {
         return route(GET("/countQuestions"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
@@ -130,7 +130,7 @@ public class QuestionRouter {
                     MediaType.APPLICATION_JSON_VALUE
             },
             method = RequestMethod.GET,
-            beanClass = ListUseCase.class,
+            beanClass = ListPagedUseCase.class,
             beanMethod = "getTotalPages",
             operation = @Operation(
                     operationId = "getTotalPages",
@@ -171,10 +171,10 @@ public class QuestionRouter {
                                             implementation = QuestionDTO.class
                                     ))
                             ),
-                            @ApiResponse(responseCode = "404",description = "customer not found with given id")
+                            @ApiResponse(responseCode = "404", description = "customer not found with given id")
                     },
                     parameters = {
-                            @Parameter(in = ParameterIn.PATH,name = "userId")
+                            @Parameter(in = ParameterIn.PATH, name = "userId")
                     }
 
             )
@@ -187,7 +187,7 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(
                                 ownerListUseCase.apply(request.pathVariable("userId")),
                                 QuestionDTO.class
-                         ))
+                        ))
         );
     }
 
@@ -220,7 +220,7 @@ public class QuestionRouter {
             )
     )
     public RouterFunction<ServerResponse> create(CreateUseCase createUseCase) {
-        Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  createUseCase.apply(questionDTO)
+        Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO -> createUseCase.apply(questionDTO)
                 .flatMap(result -> ServerResponse.ok()
                         .contentType(MediaType.TEXT_PLAIN)
                         .bodyValue(result));
@@ -250,21 +250,21 @@ public class QuestionRouter {
                                             implementation = QuestionDTO.class
                                     ))
                             ),
-                            @ApiResponse(responseCode = "404",description = "customer not found with given id")
+                            @ApiResponse(responseCode = "404", description = "customer not found with given id")
                     },
                     parameters = {
-                            @Parameter(in = ParameterIn.PATH,name = "id")
+                            @Parameter(in = ParameterIn.PATH, name = "id")
                     }
 
             )
     )
     public RouterFunction<ServerResponse> get(GetUseCase getUseCase) {
         return route(
-                GET("/get/"+"{id}").and(accept(MediaType.APPLICATION_JSON)),
+                GET("/get/" + "{id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getUseCase.apply(
-                                request.pathVariable("id")),
+                                        request.pathVariable("id")),
                                 QuestionDTO.class
                         ))
         );
@@ -320,7 +320,7 @@ public class QuestionRouter {
             operation = @Operation(
                     operationId = "apply",
                     parameters = {
-                            @Parameter(in = ParameterIn.PATH,name = "id")
+                            @Parameter(in = ParameterIn.PATH, name = "id")
                     }
             )
     )
@@ -332,7 +332,29 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
+
     @Bean
+    @RouterOperation(
+        path = "/update",
+        produces = {
+                MediaType.APPLICATION_JSON_VALUE
+        },
+        method = RequestMethod.POST,
+        beanClass = UpdateUseCase.class,
+        beanMethod = "apply",
+        operation = @Operation(
+                operationId = "apply",
+                responses = {
+                        @ApiResponse(
+                                responseCode = "200",
+                                description = "successful operation",
+                                content = @Content(schema = @Schema(
+                                        implementation = QuestionDTO.class
+                                ))
+                        ),
+                }
+        )
+)
     public RouterFunction<ServerResponse> updateQuestion(UpdateUseCase updateUseCase) {
         Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  updateUseCase.apply(questionDTO)
                 .flatMap(result -> ServerResponse.ok()
@@ -346,6 +368,27 @@ public class QuestionRouter {
     }
 
     @Bean
+    @RouterOperation(
+            path = "/updateAnswer",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.PUT,
+            beanClass = UpdateAnswerUseCase.class,
+            beanMethod = "apply",
+            operation = @Operation(
+                    operationId = "apply",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "successful operation",
+                                    content = @Content(schema = @Schema(
+                                            implementation = AnswerDTO.class
+                                    ))
+                            ),
+                    }
+            )
+    )
     public RouterFunction<ServerResponse> updateAnswer(UpdateAnswerUseCase updateAnswerUseCase) {
         Function<AnswerDTO, Mono<ServerResponse>> executor = answerDTO ->  updateAnswerUseCase.apply(answerDTO)
                 .flatMap(result -> ServerResponse.ok()
