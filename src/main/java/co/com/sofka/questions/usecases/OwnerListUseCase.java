@@ -2,10 +2,6 @@ package co.com.sofka.questions.usecases;
 
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.reposioties.QuestionRepository;
-<<<<<<< HEAD
-import org.springframework.data.domain.PageRequest;
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
@@ -29,9 +25,4 @@ public class OwnerListUseCase implements Function<String, Flux<QuestionDTO>> {
         return questionRepository.findByUserId(userId)
                 .map(mapperUtils.mapEntityToQuestion());
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
 }

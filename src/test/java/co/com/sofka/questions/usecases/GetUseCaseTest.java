@@ -1,6 +1,5 @@
 package co.com.sofka.questions.usecases;
 
-<<<<<<< HEAD
 import co.com.sofka.questions.collections.Answer;
 import co.com.sofka.questions.collections.Question;
 import co.com.sofka.questions.model.AnswerDTO;
@@ -8,7 +7,6 @@ import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.reposioties.AnswerRepository;
 import co.com.sofka.questions.reposioties.QuestionRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +18,6 @@ import reactor.test.StepVerifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GetUseCaseTest {
 
@@ -75,10 +72,5 @@ class GetUseCaseTest {
                 })
                 .verifyComplete();
     }
-=======
-import static org.junit.jupiter.api.Assertions.*;
-
-class GetUseCaseTest {
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
 
 }

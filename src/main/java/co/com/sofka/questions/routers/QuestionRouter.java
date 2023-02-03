@@ -1,6 +1,5 @@
 package co.com.sofka.questions.routers;
 
-<<<<<<< HEAD
 import co.com.sofka.questions.collections.Answer;
 import co.com.sofka.questions.collections.Question;
 import co.com.sofka.questions.model.AnswerDTO;
@@ -19,22 +18,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
-=======
-import co.com.sofka.questions.model.AnswerDTO;
-import co.com.sofka.questions.model.QuestionDTO;
-import co.com.sofka.questions.usecases.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
+
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-<<<<<<< HEAD
+
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
+
 
 import java.util.function.Function;
 
@@ -44,7 +35,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 public class QuestionRouter {
 
-<<<<<<< HEAD
+
 
     @Bean
 
@@ -72,10 +63,6 @@ public class QuestionRouter {
                                     }
                             )
                     )
-
-=======
-    @Bean
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     public RouterFunction<ServerResponse> getAll(ListUseCase listUseCase) {
         return route(GET("/getAll"),
                 request -> ServerResponse.ok()
@@ -85,7 +72,6 @@ public class QuestionRouter {
     }
 
     @Bean
-<<<<<<< HEAD
     @RouterOperation(
             path = "/getOwnerAll/{userId}",
             produces = {
@@ -114,8 +100,6 @@ public class QuestionRouter {
                     }
             )
     )
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     public RouterFunction<ServerResponse> getOwnerAll(OwnerListUseCase ownerListUseCase) {
         return route(
                 GET("/getOwnerAll/{userId}"),
@@ -127,8 +111,6 @@ public class QuestionRouter {
                          ))
         );
     }
-
-<<<<<<< HEAD
     @RouterOperation(
             path = "/pagination/{pageNumber}",
             produces = {
@@ -193,9 +175,6 @@ public class QuestionRouter {
                     )
             )
     )
-=======
-    @Bean
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     public RouterFunction<ServerResponse> create(CreateUseCase createUseCase) {
         Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO ->  createUseCase.apply(questionDTO)
                 .flatMap(result -> ServerResponse.ok()
@@ -209,7 +188,6 @@ public class QuestionRouter {
     }
 
     @Bean
-<<<<<<< HEAD
     @RouterOperation(
             path = "/get/{id}",
             produces = {
@@ -238,8 +216,6 @@ public class QuestionRouter {
                     }
             )
     )
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     public RouterFunction<ServerResponse> get(GetUseCase getUseCase) {
         return route(
                 GET("/get/{id}").and(accept(MediaType.APPLICATION_JSON)),
@@ -253,7 +229,6 @@ public class QuestionRouter {
     }
 
     @Bean
-<<<<<<< HEAD
     @RouterOperation(
             path = "/add",
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -280,9 +255,6 @@ public class QuestionRouter {
                     )
             )
     )
-
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     public RouterFunction<ServerResponse> addAnswer(AddAnswerUseCase addAnswerUseCase) {
         return route(POST("/add").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class)
@@ -295,7 +267,6 @@ public class QuestionRouter {
     }
 
     @Bean
-<<<<<<< HEAD
     @RouterOperation(
             path = "/update",
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -372,7 +343,6 @@ public class QuestionRouter {
 
         );
     }
-
     @Bean
     @RouterOperation(
             path = "/delete/{id}",
@@ -397,8 +367,6 @@ public class QuestionRouter {
                     )}
             )
     )
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     public RouterFunction<ServerResponse> delete(DeleteUseCase deleteUseCase) {
         return route(
                 DELETE("/delete/{id}").and(accept(MediaType.APPLICATION_JSON)),
@@ -407,7 +375,6 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
-<<<<<<< HEAD
 
     @Bean
 
@@ -477,6 +444,4 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(getTotalPagesUseCase.getTotalPages(), Integer.class))
         );
     }
-=======
->>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
 }
