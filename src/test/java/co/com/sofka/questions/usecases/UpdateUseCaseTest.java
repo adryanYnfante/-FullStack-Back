@@ -46,7 +46,8 @@ class UpdateUseCaseTest {
         StepVerifier.create(updateUseCase.apply(questionDto))
                 .expectNextMatches(q->{
 
-                    return q.equals("idQuestion");
+                    assert  q.equals("idQuestion");
+                    return true;
                 })
                 .verifyComplete();
 

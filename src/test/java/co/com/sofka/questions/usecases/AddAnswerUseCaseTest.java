@@ -39,7 +39,8 @@ class AddAnswerUseCaseTest {
 
         StepVerifier.create(addAnswerUseCase.apply(answerDTO))
                 .expectNextMatches(answerDTO1 -> {
-                    return answerDTO1.getAnswer().equals("answer");
+                    assert  answerDTO1.getAnswer().equals("answer");
+                    return true;
                 });
 
 

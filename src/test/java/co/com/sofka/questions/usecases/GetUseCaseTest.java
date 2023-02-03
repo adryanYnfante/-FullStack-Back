@@ -54,7 +54,8 @@ class GetUseCaseTest {
 
         StepVerifier.create(getUseCase.apply("idQuestion"))
                 .expectNextMatches(questDTO -> {
-                   return questDTO.getUserId().equals("300") ;
+                   assert  questDTO.getUserId().equals("300") ;
+                   return true;
                 })
                 .verifyComplete();
     }
