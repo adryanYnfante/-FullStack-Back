@@ -36,6 +36,7 @@ public class ListUseCase implements Supplier<Flux<QuestionDTO>> {
         return questionRepository.findAllBy(pageRequest);
     }
 
+
     @Override
     public Flux<QuestionDTO> get() {
         return questionRepository.findAll()

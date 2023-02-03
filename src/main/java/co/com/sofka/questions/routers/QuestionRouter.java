@@ -365,4 +365,33 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
+    @Bean
+    @RouterOperation(
+            path = "/countQuestions",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = QuestionRouter.class,
+            beanMethod = "getTotalQuestions",
+            operation = @Operation(
+                    operationId = "getTotalQuestions",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            )
+                    }
+            )
+    )
+    public RouterFunction<ServerResponse> getTotalQuestions(GetTotalQuestionsUseCase getTotalQuestionsUseCase) {
+        return route(GET("/countQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getTotalQuestionsUseCase.getTotalQuestions(), Long.class))
+        );
+    }
 }
