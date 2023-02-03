@@ -319,7 +319,7 @@ public class QuestionRouter {
             )
     )
     public RouterFunction<ServerResponse> editQuestion(UpdateUseCase updateUseCaseAnswerUseCase) {
-        return route(POST("/update").and(accept(MediaType.APPLICATION_JSON)),
+        return route(PUT("/update").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(QuestionDTO.class)
                         .flatMap(updateQuestionDTO -> updateUseCaseAnswerUseCase.apply(updateQuestionDTO)
                                 .flatMap(result -> ServerResponse.ok()
