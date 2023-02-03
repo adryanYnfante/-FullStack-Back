@@ -26,6 +26,7 @@ class ListUseCaseTest {
 
     @Test
      void getValidationTest(){
+        // arrange
         var question =  new Question();
         question.setUserId("xxxx-xxxx");
         question.setType("tech");
@@ -33,6 +34,7 @@ class ListUseCaseTest {
         question.setQuestion("¿Que es java?");
         when(repository.findAll()).thenReturn(Flux.just(question ));
 
+        // Assert
         StepVerifier.create(listUseCase.get())
                 .expectNextMatches(questionDTO -> {
                     assert questionDTO.getUserId().equals("xxxx-xxxx");
@@ -42,7 +44,7 @@ class ListUseCaseTest {
                     return true;
                 })
                 .verifyComplete();
-
+        // Act
         verify(repository).findAll();
     }
 }
