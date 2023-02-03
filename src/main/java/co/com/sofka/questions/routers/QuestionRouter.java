@@ -285,6 +285,44 @@ public class QuestionRouter {
         );
     }
 
+    @Bean
+    @RouterOperation(
+            path = "/updateAnswer",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            method = {RequestMethod.POST},
+            beanClass = QuestionRouter.class,
+            beanMethod = "updateAnswer",
+            operation = @Operation(
+                    operationId = "updateAnswer",
+                    responses = {@ApiResponse(
+                            responseCode = "200",
+                            description = "Successful operation",
+                            content = {@Content(
+                                    schema = @Schema(
+                                            implementation = Answer.class
+                                    )
+                            )}
+                    )},
+                    requestBody = @RequestBody(
+                            content = {@Content(
+                                    schema = @Schema(
+                                            implementation = Answer.class
+                                    )
+                            )}
+                    )
+            )
+    )
+    public RouterFunction<ServerResponse> updateAnswer(UpdateAnswerUseCase updateAnswerUseCase) {
+        return route(POST("/updateAnswer").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(AnswerDTO.class)
+                        .flatMap(updateAnswerUseCaseDTO -> updateAnswerUseCase.editAnswer(updateAnswerUseCaseDTO)
+                                .flatMap(result -> ServerResponse.ok()
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .bodyValue(result))
+                        )
+
+        );
+    }
 
     @Bean
     @RouterOperation(
