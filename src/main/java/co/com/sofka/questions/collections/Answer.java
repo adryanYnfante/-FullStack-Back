@@ -2,14 +2,19 @@ package co.com.sofka.questions.collections;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document
+@Document("answer")
 public class Answer {
     @Id
     private String id;
+    @Field
     private String userId;
+    @Field
     private String questionId;
+    @Field
     private String answer;
+    @Field
     private Integer position;
 
     public Integer getPosition() {
