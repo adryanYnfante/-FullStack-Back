@@ -173,12 +173,13 @@ public class QuestionRouter {
 
     @Bean
     @RouterOperation(
+            // Obtiene una pregunta por el ID
             path = "/get/{id}",
             produces = {
                     MediaType.APPLICATION_JSON_VALUE
             },
             method = RequestMethod.GET,
-            beanClass = GetUseCase.class,
+            beanClass = QuestionRouter.class,
             beanMethod = "get",
             operation = @Operation(
                     operationId = "get",
@@ -187,7 +188,7 @@ public class QuestionRouter {
                                     responseCode = "200",
                                     description = "Operación exitosa!",
                                     content = @Content(schema = @Schema(
-                                            implementation = QuestionDTO.class
+                                            implementation = QuestionRouter.class
                                     ))
                             ),
                     },
@@ -370,4 +371,43 @@ public class QuestionRouter {
                 request -> request.bodyToMono(QuestionDTO.class).flatMap(executor)
         );
     }
+    @Bean
+    @RouterOperation(
+            path = "/answer-update",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.PUT,
+            beanClass = QuestionRouter.class,
+            beanMethod = "editAnswer",
+            operation = @Operation(
+                    operationId = "editAnswer",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Operación exitosa!",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            ),
+                    },
+                    requestBody = @RequestBody(
+                            content = @Content(schema = @Schema(
+                                    implementation = QuestionRouter.class
+                            ))
+                    )
+            )
+    )
+    public RouterFunction<ServerResponse> editAnswer(AddAnswerUseCase addAnswerUseCase) {
+        Function<AnswerDTO, Mono<ServerResponse>> executor = answerDTO ->addAnswerUseCase.editAnswer(answerDTO)
+                .flatMap(result -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(result));
+
+                return route(
+                        PUT("/answer-update").and(accept(MediaType.APPLICATION_JSON)),
+                        request -> request.bodyToMono(AnswerDTO.class).flatMap(executor)
+                );
+    }
+
 }
