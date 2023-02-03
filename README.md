@@ -2,6 +2,7 @@
 
 ## Funcionalidades a Añadir:
 
+* Conexión a MongoDB
 * Sistema para calificación de las respuestas
 * Editar respuestas
 * Páginador de Preguntas (BackEnd)
@@ -21,6 +22,10 @@
 *	Swagger.io
 
 ![](https://upload.wikimedia.org/wikipedia/commons/a/ab/Swagger-logo.png)
+
+*	MongoDB
+
+![](https://terracloudx.com/wp-content/uploads/2020/07/icono-mongo.png)
 
 ### Autor
 [@Nirsch95](https://github.com/Nirsch95) - Andrés Castro :wolf:
