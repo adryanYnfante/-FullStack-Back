@@ -6,7 +6,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class AnswerDTO {
+<<<<<<< HEAD
     private String id;
+=======
+>>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     @NotBlank(message = "Debe existir el userId para este objeto")
     private String userId;
     @NotBlank
@@ -21,6 +24,7 @@ public class AnswerDTO {
 
     }
 
+<<<<<<< HEAD
     public String getId() {
         return id;
     }
@@ -42,6 +46,12 @@ public class AnswerDTO {
         this.questionId = questionId;
         this.answer = answer;
         this.position= position;
+=======
+    public AnswerDTO(@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer) {
+        this.userId = userId;
+        this.questionId = questionId;
+        this.answer = answer;
+>>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
     }
 
     public Integer getPosition() {

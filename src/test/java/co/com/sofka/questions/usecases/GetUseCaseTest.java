@@ -1,5 +1,6 @@
 package co.com.sofka.questions.usecases;
 
+<<<<<<< HEAD
 import co.com.sofka.questions.collections.Answer;
 import co.com.sofka.questions.collections.Question;
 import co.com.sofka.questions.model.AnswerDTO;
@@ -74,5 +75,10 @@ class GetUseCaseTest {
                 })
                 .verifyComplete();
     }
+=======
+import static org.junit.jupiter.api.Assertions.*;
+
+class GetUseCaseTest {
+>>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
 
 }

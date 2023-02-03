@@ -4,9 +4,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
+<<<<<<< HEAD
 @Document(
         collection = "preguntas"
 )
+=======
+@Document
+>>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
 public class Question {
     @Id
     private String id;

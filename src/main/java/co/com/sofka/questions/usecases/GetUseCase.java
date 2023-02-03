@@ -31,7 +31,11 @@ public class GetUseCase implements Function<String, Mono<QuestionDTO>> {
                 .flatMap(mapQuestionAggregate());
     }
 
+<<<<<<< HEAD
     public Function<QuestionDTO, Mono<QuestionDTO>> mapQuestionAggregate() {
+=======
+    private Function<QuestionDTO, Mono<QuestionDTO>> mapQuestionAggregate() {
+>>>>>>> 48dfb9c47282822683662b4a55e09805a5855c33
         return questionDTO ->
                 Mono.just(questionDTO).zipWith(
                         answerRepository.findAllByQuestionId(questionDTO.getId())
