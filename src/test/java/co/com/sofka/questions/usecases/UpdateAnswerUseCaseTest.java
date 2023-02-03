@@ -1,7 +1,10 @@
 package co.com.sofka.questions.usecases;
 
+import co.com.sofka.questions.collections.Answer;
 import co.com.sofka.questions.collections.Question;
+import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
+import co.com.sofka.questions.reposioties.AnswerRepository;
 import co.com.sofka.questions.reposioties.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,43 +18,44 @@ import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UpdateUseCaseTest {
-
+class UpdateAnswerUseCaseTest {
 
     @SpyBean
-    UpdateUseCase updateUseCase;
+    AnswerRepository answerRepository;
+
+    @SpyBean
+    UpdateAnswerUseCase updateAnswerUseCase;
 
     @Autowired
     private MapperUtils mapperUtils;
 
-    @Mock
-    QuestionRepository questionRepository;
+
 
     @BeforeEach
     public void setup(){
         MapperUtils mapperUtils = new MapperUtils();
-        questionRepository = mock(QuestionRepository.class);
+        answerRepository = mock(AnswerRepository.class);
 
     }
 
     @Test
     void getValidationTest(){
-        Question question = new Question();
-        QuestionDTO questionDTO =new QuestionDTO("300","132838","Es buena","abierta","peliculas");
-        question.setId(questionDTO.getId());
-        question.setUserId(questionDTO.getUserId());
-        question.setQuestion(questionDTO.getQuestion());
-        question.setType(questionDTO.getType());
-        question.setCategory(questionDTO.getCategory());
+        Answer answer = new Answer();
+        AnswerDTO answerDTO= new AnswerDTO("123","300","132838","ok",5);
+
+        answer.setId(answerDTO.getId());
+        answer.setQuestionId(answerDTO.getQuestionId());
+        answer.setUserId(answerDTO.getUserId());
+        answer.setAnswer(answerDTO.getAnswer());
+        answer.setPosition(answerDTO.getPosition());
 
 
-        Mockito.when(questionRepository.save(question)).thenReturn(Mono.just(mapperUtils.mapperToQuestion(questionDTO.getId()).apply(questionDTO)));
+        Mockito.when(answerRepository.save(answer)).thenReturn(Mono.just(mapperUtils.mapperToAnswer(answerDTO.getId()).apply(answerDTO)));
 
-        StepVerifier.create(updateUseCase.apply(questionDTO))
+        StepVerifier.create(updateAnswerUseCase.apply(answerDTO))
                 .expectNextMatches(MonoQ -> {
-                    equals("300");
+                    equals("123");
 
                     return true;
                 })
@@ -59,5 +63,4 @@ class UpdateUseCaseTest {
 
 
     }
-
 }
