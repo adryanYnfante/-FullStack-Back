@@ -6,7 +6,9 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
-@FunctionalInterface
+
 public interface SaveAnswer {
     Mono<QuestionDTO> apply(@Valid AnswerDTO answerDTO);
+
+    Mono<String> updateAnswer(@Valid AnswerDTO answerDTO);
 }
