@@ -394,4 +394,33 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(getTotalQuestionsUseCase.getTotalQuestions(), Long.class))
         );
     }
+    @Bean
+    @RouterOperation(
+            path = "/totalPages",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = QuestionRouter.class,
+            beanMethod = "getTotalQuestions",
+            operation = @Operation(
+                    operationId = "getTotalQuestions",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Succesful",
+                                    content = @Content(schema = @Schema(
+                                            implementation = QuestionRouter.class
+                                    ))
+                            )
+                    }
+            )
+    )
+    public RouterFunction<ServerResponse> getTotalPages(GetTotalPageUseCase getTotalPageUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getTotalPageUseCase.getTotalPages(), Integer.class))
+        );
+    }
 }
