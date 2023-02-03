@@ -353,4 +353,68 @@ public class QuestionRouter {
                 request -> ok().body(listUseCase.getPages( Integer.valueOf(request
                         .pathVariable("pageNumber")) ), QuestionDTO.class));
     }
+
+    @Bean
+    @RouterOperations(
+            {
+                    @RouterOperation(
+                            path = "/totalPages",
+                            produces = {
+                                    MediaType.APPLICATION_JSON_VALUE
+                            },
+                            method = RequestMethod.GET,
+                            beanClass = QuestionRouter.class,
+                            beanMethod = "totalPages",
+                            operation = @Operation(operationId = "totalPages",
+                                    responses = {
+                                            @ApiResponse(
+                                                    responseCode = "200",
+                                                    description = "successful operation",
+                                                    content = @Content(schema = @Schema(
+                                                            implementation = Question.class
+                                                    ))
+                                            )
+                                    }
+                            )
+                    )
+            })
+    public RouterFunction<ServerResponse> totalPages(GetTotalPagesUseCase getTotalPagesUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getTotalPagesUseCase.getPage(), Integer.class))
+        );
+    }
+
+    @Bean
+    @RouterOperations(
+            {
+                    @RouterOperation(
+                            path = "/countQuestions",
+                            produces = {
+                                    MediaType.APPLICATION_JSON_VALUE
+                            },
+                            method = RequestMethod.GET,
+                            beanClass = QuestionRouter.class,
+                            beanMethod = "countQuestions",
+                            operation = @Operation(operationId = "countQuestions",
+                                    responses = {
+                                            @ApiResponse(
+                                                    responseCode = "200",
+                                                    description = "successful operation",
+                                                    content = @Content(schema = @Schema(
+                                                            implementation = Question.class
+                                                    ))
+                                            )
+                                    }
+                            )
+                    )
+            })
+    public RouterFunction<ServerResponse> countQuestions(GetTotalQuestionsUseCase getTotalQuestionsUseCase) {
+        return route(GET("/countQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getTotalQuestionsUseCase.getTotalQuestions(), Long.class))
+        );
+    }
 }

@@ -58,7 +58,7 @@ class AddAnswerUseCaseTest {
         questionDTO.setAnswers(answersDTO);
 
         Mockito.when(getUseCase.apply(answerDTO.getQuestionId())).thenReturn(Mono.just(questionDTO));
-        Mockito.when(answerRepository.save(answer)).thenReturn(Mono.just(mapperUtils.mapperToAnswer().apply(answerDTO)));
+        Mockito.when(answerRepository.save(answer)).thenReturn(Mono.just(mapperUtils.mapperToAnswer(answerDTO.getId()).apply(answerDTO)));
 
         StepVerifier.create(addAnswerUseCase.apply(answerDTO))
                 .expectNextMatches(MonoQ -> {
