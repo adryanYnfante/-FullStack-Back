@@ -255,11 +255,11 @@ public class QuestionRouter {
     }
     @Bean
     @RouterOperation(
-            path = "/add",
+            path = "/update-answer",
             produces = {
                     MediaType.APPLICATION_JSON_VALUE
             },
-            method = RequestMethod.POST,
+            method = RequestMethod.PUT,
             beanClass = QuestionRouter.class,
             beanMethod = "updateAnswer",
             operation = @Operation(
@@ -280,10 +280,10 @@ public class QuestionRouter {
 
             )
     )
-    public RouterFunction<ServerResponse> updateAnswer(AddAnswerUseCase addAnswerUseCase) {
-        return route(POST("/add").and(accept(MediaType.APPLICATION_JSON)),
+    public RouterFunction<ServerResponse> updateAnswer(UpdateAnswerUseCase updateAnswerUseCase) {
+        return route(PUT("/update-answer").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class)
-                        .flatMap(addAnswerDTO -> addAnswerUseCase.apply(addAnswerDTO)
+                        .flatMap(addAnswerDTO -> updateAnswerUseCase.apply(addAnswerDTO)
                                 .flatMap(result -> ServerResponse.ok()
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))

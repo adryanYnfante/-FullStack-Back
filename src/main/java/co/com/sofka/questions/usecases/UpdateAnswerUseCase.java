@@ -6,10 +6,13 @@ import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.reposioties.AnswerRepository;
 import co.com.sofka.questions.reposioties.QuestionRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
-
+@Service
+@Validated
 public class UpdateAnswerUseCase {
     private final AnswerRepository answerRepository;
     private final MapperUtils mapperUtils;
