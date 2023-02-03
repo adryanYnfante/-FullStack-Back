@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Document
+@Document("questions")
 public class Question {
     @Id
     private String id;
@@ -13,6 +13,16 @@ public class Question {
     private String type;
     private String category;
 
+    public Question(String id, String userId, String question, String type, String category) {
+        this.id = id;
+        this.userId = userId;
+        this.question = question;
+        this.type = type;
+        this.category = category;
+    }
+
+    public Question() {
+    }
 
     public String getId() {
         return id;
