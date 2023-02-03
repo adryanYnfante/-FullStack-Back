@@ -1,5 +1,6 @@
 package co.com.sofka.questions.routers;
 
+import co.com.sofka.questions.collections.Answer;
 import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.usecases.*;
@@ -259,7 +260,7 @@ public class QuestionRouter {
             produces = {
                     MediaType.APPLICATION_JSON_VALUE
             },
-            method = RequestMethod.PUT,
+            method = RequestMethod.POST,
             beanClass = QuestionRouter.class,
             beanMethod = "updateAnswer",
             operation = @Operation(
@@ -269,19 +270,19 @@ public class QuestionRouter {
                                     responseCode = "200",
                                     description = "Succesful",
                                     content = @Content(schema = @Schema(
-                                            implementation = QuestionRouter.class
+                                            implementation = Answer.class
                                     ))
                             ),
                             @ApiResponse(
                                     responseCode  ="400", description = "Not found"
                             ),
                     },
-                    requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = QuestionRouter.class)))
+                    requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = Answer.class)))
 
             )
     )
     public RouterFunction<ServerResponse> updateAnswer(UpdateAnswerUseCase updateAnswerUseCase) {
-        return route(PUT("/update-answer").and(accept(MediaType.APPLICATION_JSON)),
+        return route(POST("/update-answer").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class)
                         .flatMap(addAnswerDTO -> updateAnswerUseCase.apply(addAnswerDTO)
                                 .flatMap(result -> ServerResponse.ok()
