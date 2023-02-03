@@ -40,7 +40,7 @@ class DeleteUseCaseTest {
         List<AnswerDTO> answersDTO = new ArrayList<>();
 
         Answer answer = new Answer();
-        AnswerDTO    answerDTO= new AnswerDTO("300","julian2345","super peli",5);
+        AnswerDTO    answerDTO= new AnswerDTO("123","300","julian2345","super peli",5);
 
         answer.setQuestionId(answerDTO.getQuestionId());
         answer.setUserId(answerDTO.getUserId());

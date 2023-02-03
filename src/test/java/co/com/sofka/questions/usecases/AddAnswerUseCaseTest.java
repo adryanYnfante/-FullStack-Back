@@ -23,16 +23,12 @@ import java.util.List;
 class AddAnswerUseCaseTest {
     @SpyBean
     private AddAnswerUseCase addAnswerUseCase;
-
     @SpyBean
     private GetUseCase getUseCase;
-
     @Autowired
     private MapperUtils mapperUtils;
-
     @Mock
     AnswerRepository answerRepository;
-
     @Test
     public void addAnswerHappyPass(){
         Question question = new Question();
@@ -42,24 +38,18 @@ class AddAnswerUseCaseTest {
         question.setQuestion(questionDTO.getQuestion());
         question.setType(questionDTO.getType());
         question.setCategory(questionDTO.getCategory());
-
         List<AnswerDTO> answersDTO = new ArrayList<>();
-
         Answer answer = new Answer();
-        AnswerDTO    answerDTO= new AnswerDTO("300","julian2345","super peli",5);
-
+        AnswerDTO    answerDTO= new AnswerDTO("123","300","julian2345","super peli",5);
         answer.setQuestionId(answerDTO.getQuestionId());
         answer.setUserId(answerDTO.getUserId());
         answer.setAnswer(answerDTO.getAnswer());
         answer.setPosition(answerDTO.getPosition());
-
         answersDTO.add(answerDTO);
-
         questionDTO.setAnswers(answersDTO);
 
         Mockito.when(getUseCase.apply(answerDTO.getQuestionId())).thenReturn(Mono.just(questionDTO));
-        Mockito.when(answerRepository.save(answer)).thenReturn(Mono.just(mapperUtils.mapperToAnswer().apply(answerDTO)));
-
+        Mockito.when(answerRepository.save(answer)).thenReturn(Mono.just(mapperUtils.mapperToAnswer(answerDTO.getId()).apply(answerDTO)));
         StepVerifier.create(addAnswerUseCase.apply(answerDTO))
                 .expectNextMatches(MonoQ -> {
                     assert  MonoQ.getId().equals("300");

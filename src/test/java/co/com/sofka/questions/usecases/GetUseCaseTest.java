@@ -46,7 +46,7 @@ class GetUseCaseTest {
         List<AnswerDTO> answersDTO = new ArrayList<>();
 
         Answer answer = new Answer();
-        AnswerDTO    answerDTO= new AnswerDTO("300","132838","ok",5);
+        AnswerDTO    answerDTO= new AnswerDTO("123","300","132838","ok",5);
 
         answer.setQuestionId(answerDTO.getQuestionId());
         answer.setUserId(answerDTO.getUserId());
