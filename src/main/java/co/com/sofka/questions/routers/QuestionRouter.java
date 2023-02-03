@@ -375,4 +375,73 @@ public class QuestionRouter {
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
+
+    @Bean
+
+    @RouterOperation(
+            path = "/countQuestions",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = QuestionRouter.class,
+            beanMethod = "countQuestions",
+            operation = @Operation(
+                    operationId = "countQuestions",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "successful operation",
+                                    content = @Content(schema = @Schema(
+                                            implementation = Question.class
+                                    ))
+                            ), @ApiResponse(
+                            responseCode = "404",
+                            description = "question not found"
+                    )
+                    }
+            )
+    )
+
+    public RouterFunction<ServerResponse> countQuestions(GetTotalQuestionsUseCase totalQuestionsUseCase) {
+        return route(GET("/countQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(totalQuestionsUseCase.getTotalQuestions(), long.class))
+        );
+    }
+
+    @Bean
+
+    @RouterOperation(
+            path = "/totalPages",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            method = RequestMethod.GET,
+            beanClass = QuestionRouter.class,
+            beanMethod = "totalPages",
+            operation = @Operation(
+                    operationId = "totalPages",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "successful operation",
+                                    content = @Content(schema = @Schema(
+                                            implementation = Question.class
+                                    ))
+                            ), @ApiResponse(
+                            responseCode = "404",
+                            description = "not found"
+                    )
+                    }
+            )
+    )
+    public RouterFunction<ServerResponse> totalPages(GetTotalPagesUseCase getTotalPagesUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getTotalPagesUseCase.getTotalPages(), Integer.class))
+        );
+    }
 }
